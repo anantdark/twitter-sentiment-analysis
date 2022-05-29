@@ -7,15 +7,13 @@ import sys
 import tweepy
 import numpy as np
 import pandas as pd
-import logging as logger
-
 
 class Import_tweet_sentiment:
 
-	consumer_key="h28toYwlYUF8iXeqPHu8tbNf8"
-	consumer_secret="TGBvlwSsccFEptgc7ibxeCp6vL5AnIa41l8GnC3SaOmkJMVsl1"
-	access_token="1530458824380850181-5bDGNSXjgSO7gEBKc94Kubz7hAswwc"
-	access_token_secret="fyte8e9D3tL0jmyVvwfts1oS0DXqVBbdiwc41MdWsXG4L"
+	consumer_key="user consumer_key"
+	consumer_secret="user consumer_secret"
+	access_token="user access_token"
+	access_token_secret="user access_token_secret"
 
 	def tweet_to_data_frame(self, tweets):
 		df = pd.DataFrame(data=[tweet.text for tweet in tweets], columns=['Tweets'])
@@ -25,8 +23,6 @@ class Import_tweet_sentiment:
 		auth = OAuthHandler(self.consumer_key, self.consumer_secret)
 		auth.set_access_token(self.access_token, self.access_token_secret)
 		auth_api = API(auth)
-		logger.info("auth api set")
-		# li  = auth_api.search_tweets(q = "sad")
 
 		account = handle
 		item = auth_api.user_timeline(id=account,count=20)
@@ -41,13 +37,11 @@ class Import_tweet_sentiment:
 		auth = OAuthHandler(self.consumer_key, self.consumer_secret)
 		auth.set_access_token(self.access_token, self.access_token_secret)
 		auth_api = API(auth)
-		# auth_api = tweepy.Client(consumer_key= self.consumer_key,consumer_secret= self.consumer_secret,access_token= self.access_token,access_token_secret= self.access_token_secret)
 
 		account = hashtag
 		all_tweets = []
 
-		# for tweet in tweepy.Cursor(auth_api.search_tweets, q=account, lang='en').items(20):
-		for tweet in auth_api.search_tweets(q=account , lang='en'):
+		for tweet in tweepy.Cursor(auth_api.search, q=account, lang='en').items(20):
 			all_tweets.append(tweet.text)
 
 		return all_tweets
